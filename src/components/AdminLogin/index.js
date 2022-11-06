@@ -41,7 +41,7 @@ const AdminLogin = () => {
         if (!isEmpty(result.data)) {
           const { data = {} } = result.data
           Auth.setToken(data.token, data.refreshToken)
-          return router.push('/admin/user-event')
+          return router.push('/admin/event')
         }
       } catch (error) {
         console.log(error)
