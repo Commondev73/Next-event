@@ -58,7 +58,7 @@ const AdminLogin = () => {
   return (
     <>
       <Container className="">
-      <Loading show={true} />
+      <Loading show={isLoading} />
         <Row className="w-full h-screen flex justify-center items-center">
           <Col xs={24} sm={24} md={8}>
             <Panel className="bg-white" header={<h3>เข้าสู่ระบบ</h3>}>
