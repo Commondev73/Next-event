@@ -217,10 +217,9 @@ const AdminEvent = () => {
     } catch (error) {
       console.log(error)
       fetchDataUserEventList(eventId)
-      const { data = {} } = error.response
       toaster.push(
         <Message showIcon type="error">
-          {data.message || 'error'}
+          {error?.response?.data?.message || 'error'}
         </Message>
       )
     }
@@ -263,7 +262,7 @@ const AdminEvent = () => {
 
   return (
     <Container className="my-5">
-      <Row className="w-full h-screen items-center">
+      <Row className="w-full h-screen text-black items-center">
         <Col className="text-center" xs={12} md={8}>
           <div className="pt-3 bg-white rounded-lg">
             <div>
@@ -341,7 +340,7 @@ const AdminEvent = () => {
                 <EditableCell dataKey="seat" onChange={handleChange} />
               </Table.Column>
 
-              <Table.Column width={100} align="center">
+              <Table.Column width={100} align="center" flexGrow={1}>
                 <Table.HeaderCell>...</Table.HeaderCell>
                 <ActionCell dataKey="id" onClick={handleEditState} />
               </Table.Column>
