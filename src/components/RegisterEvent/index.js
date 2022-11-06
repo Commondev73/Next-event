@@ -19,7 +19,7 @@ import {
 } from 'rsuite'
 import { isEmpty } from 'lodash'
 import { useRouter } from 'next/router'
-import { Search } from '@rsuite/icons'
+import { Search, Peoples, PeoplesCostomize } from '@rsuite/icons'
 const { StringType } = Schema.Types
 
 const defaultFormValue = {
@@ -114,7 +114,7 @@ const RegisterEvent = () => {
   }
 
   const eventDetail = () => {
-    let result = {}
+    let result = { user: '-', quantity: '-' }
     const eventId = formValue.eventId
     if (!isEmpty(eventList) && eventId) {
       return eventList.find((i) => i.value === eventId)
@@ -214,6 +214,8 @@ const RegisterEvent = () => {
         const result = await Services.UserEventService.createUserEvent(formValue)
         if (!isEmpty(result.data)) {
           setFormValue(defaultFormValue)
+          setUserEventList({})
+          fetchData()
           toaster.push(
             <Message showIcon type="success">
               Success
@@ -233,108 +235,136 @@ const RegisterEvent = () => {
 
   return (
     <Container>
-      <Row>
-        <Col className="" md={12} sm={24}>
-          {!isEmpty(userEventList) && userEventList.docs && (
-            <>
+      <div className="text-black items-center	flex flex-wrap">
+        <div className="flex-[1_1_100%] min-w-[100%] lg:flex-[1_1_50%] lg:min-w-[50%]">
+          <div className="p-3">
+            <Row className="">
+              <Col className="text-center" xs={12}>
+                <div className="pt-3 bg-white rounded-lg">
+                  <div>
+                    <Peoples className="w-8 h-8" />
+                  </div>
+                  <p className="mt-1">ผู้ลงทะเบียนทั้งหมด</p>
+                  <h4>{eventDetail().user}</h4>
+                </div>
+              </Col>
+              <Col className="text-center" xs={12}>
+                <div className="pt-3 bg-white rounded-lg">
+                  <div>
+                    <PeoplesCostomize className="w-8 h-8" />
+                  </div>
+                  <p className="mt-1">สามารถลงทะเบียนได้อีก</p>
+                  <h4>{eventDetail().quantity}</h4>
+                </div>
+              </Col>
+              <Col className="flex justify-center" xs={24}>
+                <Panel header={<h3>ลงทะเบียนเข้าร่วมงาน</h3>}>
+                  <Form
+                    fluid
+                    model={model}
+                    formValue={formValue}
+                    onChange={setFormValue}
+                    onSubmit={onSubmit}
+                  >
+                    <Form.Group>
+                      <Form.ControlLabel>เลือกงานที่ต้องการเข้าร่วม</Form.ControlLabel>
+                      <Form.Control
+                        className="w-full"
+                        name="eventId"
+                        accepter={SelectPicker}
+                        data={eventList}
+                        searchable={false}
+                        loading={isLoading}
+                        onChange={handleChangeEvent}
+                      />
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.ControlLabel>ชื่อ</Form.ControlLabel>
+                      <Form.Control name="firstName" placeholder="First name" />
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.ControlLabel>นามสกุล</Form.ControlLabel>
+                      <Form.Control name="lastName" placeholder="Last name" />
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.ControlLabel>เบอร์มือถือ</Form.ControlLabel>
+                      <Form.Control name="phone" placeholder="Phone number" />
+                    </Form.Group>
+
+                    <ButtonToolbar>
+                      <Button color="green" appearance="primary" type="submit" block>
+                        ลงทะเบียน
+                      </Button>
+                    </ButtonToolbar>
+                  </Form>
+                </Panel>
+              </Col>
+            </Row>
+          </div>
+        </div>
+        <div className="flex-[1_1_100%] min-w-[100%] lg:flex-[1_1_50%] lg:min-w-[50%]">
+          <div className="p-3">
+            <Panel className="p-2" header={<h4>รายชื่อผู้ลงทะเบียนทั้งหมด</h4>} bodyFill>
               <InputGroup>
                 <Input value={search} onChange={(value) => setSearch(value)} />
                 <InputGroup.Button onClick={onSearch}>
                   <Search />
                 </InputGroup.Button>
               </InputGroup>
-              <Table
-                data={userEventList.docs}
-                sortColumn={sortColumn}
-                sortType={sortType}
-                onSortColumn={handleSortColumn}
-                loading={isLoading}
-              >
-                <Table.Column width={100} align="center" flexGrow={1} sortable>
-                  <Table.HeaderCell>First name</Table.HeaderCell>
-                  <Table.Cell dataKey="firstName" />
-                </Table.Column>
-
-                <Table.Column width={100} align="center" flexGrow={1} sortable>
-                  <Table.HeaderCell>Last name</Table.HeaderCell>
-                  <Table.Cell dataKey="lastName" />
-                </Table.Column>
-
-                <Table.Column width={100} align="center" flexGrow={1} sortable>
-                  <Table.HeaderCell>Phone</Table.HeaderCell>
-                  <Table.Cell dataKey="phone" />
-                </Table.Column>
-
-                <Table.Column width={100} align="center" flexGrow={1} sortable>
-                  <Table.HeaderCell>Seat</Table.HeaderCell>
-                  <Table.Cell dataKey="seat" />
-                </Table.Column>
-              </Table>
-              <Pagination
-                prev
-                next
-                first
-                last
-                ellipsis
-                boundaryLinks
-                maxButtons={5}
-                size="sm"
-                layout={['total', '-', 'limit', '|', 'pager']}
-                limitOptions={[10, 20, 30, 50]}
-                total={userEventList.totalDocs}
-                limit={userEventList.limit}
-                activePage={userEventList.page}
-                onChangePage={handleChangePage}
-                onChangeLimit={handleChangeLimit}
-              />
-            </>
-          )}
-        </Col>
-        <Col className="" md={12} sm={24}>
-          {!isEmpty(eventDetail()) && (
-            <>
-              <Panel>{eventDetail().limit}</Panel>
-              <Panel>{eventDetail().quantity}</Panel>
-            </>
-          )}
-          <Panel header={<h3>Register</h3>} bordered>
-            <Form model={model} formValue={formValue} onChange={setFormValue} onSubmit={onSubmit}>
-              <Form.Group>
-                <Form.ControlLabel>Event</Form.ControlLabel>
-                <Form.Control
-                  name="eventId"
-                  accepter={SelectPicker}
-                  data={eventList}
-                  searchable={false}
+              <div>
+                <Table
+                  height={450}
+                  className="mt-3 rounded-t-lg bg-white"
+                  data={userEventList?.docs}
+                  sortColumn={sortColumn}
+                  sortType={sortType}
+                  onSortColumn={handleSortColumn}
                   loading={isLoading}
-                  onChange={handleChangeEvent}
+                >
+                  <Table.Column width={100} align="center" flexGrow={1} sortable>
+                    <Table.HeaderCell>ชื่อ</Table.HeaderCell>
+                    <Table.Cell dataKey="firstName" />
+                  </Table.Column>
+
+                  <Table.Column width={100} align="center" flexGrow={1} sortable>
+                    <Table.HeaderCell>นามสกุล</Table.HeaderCell>
+                    <Table.Cell dataKey="lastName" />
+                  </Table.Column>
+
+                  <Table.Column width={100} align="center" flexGrow={1} sortable>
+                    <Table.HeaderCell>เบอร์มือถือ</Table.HeaderCell>
+                    <Table.Cell dataKey="phone" />
+                  </Table.Column>
+
+                  <Table.Column width={100} align="center" flexGrow={1} sortable>
+                    <Table.HeaderCell>ที่นั่ง</Table.HeaderCell>
+                    <Table.Cell dataKey="seat" />
+                  </Table.Column>
+                </Table>
+                <Pagination
+                  className="p-2 rounded-b-lg bg-white"
+                  prev
+                  next
+                  ellipsis
+                  boundaryLinks
+                  maxButtons={5}
+                  size="sm"
+                  layout={['total', '-', 'limit', '|', 'pager']}
+                  limitOptions={[10, 20, 30, 50]}
+                  total={userEventList?.totalDocs}
+                  limit={userEventList?.limit}
+                  activePage={userEventList?.page}
+                  onChangePage={handleChangePage}
+                  onChangeLimit={handleChangeLimit}
                 />
-              </Form.Group>
-
-              <Form.Group>
-                <Form.ControlLabel>First name</Form.ControlLabel>
-                <Form.Control name="firstName" placeholder="First name" />
-              </Form.Group>
-
-              <Form.Group>
-                <Form.ControlLabel>Last name</Form.ControlLabel>
-                <Form.Control name="lastName" placeholder="Last name" />
-              </Form.Group>
-
-              <Form.Group>
-                <Form.ControlLabel>Phone number</Form.ControlLabel>
-                <Form.Control name="phone" placeholder="Phone number" />
-              </Form.Group>
-
-              <ButtonToolbar>
-                <Button appearance="primary" type="submit">
-                  Submit
-                </Button>
-              </ButtonToolbar>
-            </Form>
-          </Panel>
-        </Col>
-      </Row>
+              </div>
+            </Panel>
+          </div>
+        </div>
+      </div>
     </Container>
   )
 }
