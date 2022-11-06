@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Services from '../../services'
 import Auth from '../../auth'
+import Loading from '../../common/Loading'
 import { useRouter } from 'next/router'
 import {
   Container,
@@ -55,27 +56,36 @@ const AdminLogin = () => {
   }
 
   return (
-    <Container className="mt-5 mb-5">
-      <Panel className="bg-white" header={<h3>เข้าสู่ระบบ</h3>}>
-        <Form fluid model={model} formValue={formValue} onChange={setFormValue} onSubmit={onSubmit}>
-          <Form.Group>
-            <Form.ControlLabel>Username</Form.ControlLabel>
-            <Form.Control name="userName" placeholder="Username" />
-          </Form.Group>
+    <>
+      <Loading show={true} />
+      <Container className="mt-5 mb-5">
+        <Panel className="bg-white" header={<h3>เข้าสู่ระบบ</h3>}>
+          <Form
+            fluid
+            model={model}
+            formValue={formValue}
+            onChange={setFormValue}
+            onSubmit={onSubmit}
+          >
+            <Form.Group>
+              <Form.ControlLabel>Username</Form.ControlLabel>
+              <Form.Control name="userName" placeholder="Username" />
+            </Form.Group>
 
-          <Form.Group>
-            <Form.ControlLabel>Password</Form.ControlLabel>
-            <Form.Control name="password" placeholder="Password" />
-          </Form.Group>
+            <Form.Group>
+              <Form.ControlLabel>Password</Form.ControlLabel>
+              <Form.Control name="password" placeholder="Password" />
+            </Form.Group>
 
-          <ButtonToolbar>
-            <Button color="green" appearance="primary" type="submit" block>
-              เข้าสู่ระบบ
-            </Button>
-          </ButtonToolbar>
-        </Form>
-      </Panel>
-    </Container>
+            <ButtonToolbar>
+              <Button color="green" appearance="primary" type="submit" block>
+                เข้าสู่ระบบ
+              </Button>
+            </ButtonToolbar>
+          </Form>
+        </Panel>
+      </Container>
+    </>
   )
 }
 
