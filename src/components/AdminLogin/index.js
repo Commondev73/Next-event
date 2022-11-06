@@ -13,7 +13,7 @@ import {
   Row,
   Schema,
   Message,
-  toaster
+  toaster,
 } from 'rsuite'
 import { isEmpty } from 'lodash'
 const { StringType } = Schema.Types
@@ -57,33 +57,37 @@ const AdminLogin = () => {
 
   return (
     <>
+      <Container className="">
       <Loading show={true} />
-      <Container className="mt-5 mb-5">
-        <Panel className="bg-white" header={<h3>เข้าสู่ระบบ</h3>}>
-          <Form
-            fluid
-            model={model}
-            formValue={formValue}
-            onChange={setFormValue}
-            onSubmit={onSubmit}
-          >
-            <Form.Group>
-              <Form.ControlLabel>Username</Form.ControlLabel>
-              <Form.Control name="userName" placeholder="Username" />
-            </Form.Group>
+        <Row className="w-full h-screen flex justify-center items-center">
+          <Col xs={24} sm={24} md={8}>
+            <Panel className="bg-white" header={<h3>เข้าสู่ระบบ</h3>}>
+              <Form
+                fluid
+                model={model}
+                formValue={formValue}
+                onChange={setFormValue}
+                onSubmit={onSubmit}
+              >
+                <Form.Group>
+                  <Form.ControlLabel>Username</Form.ControlLabel>
+                  <Form.Control name="userName" placeholder="Username" />
+                </Form.Group>
 
-            <Form.Group>
-              <Form.ControlLabel>Password</Form.ControlLabel>
-              <Form.Control name="password" placeholder="Password" />
-            </Form.Group>
+                <Form.Group>
+                  <Form.ControlLabel>Password</Form.ControlLabel>
+                  <Form.Control name="password" type="password" placeholder="Password" />
+                </Form.Group>
 
-            <ButtonToolbar>
-              <Button color="green" appearance="primary" type="submit" block>
-                เข้าสู่ระบบ
-              </Button>
-            </ButtonToolbar>
-          </Form>
-        </Panel>
+                <ButtonToolbar>
+                  <Button color="green" appearance="primary" type="submit" block>
+                    เข้าสู่ระบบ
+                  </Button>
+                </ButtonToolbar>
+              </Form>
+            </Panel>
+          </Col>
+        </Row>
       </Container>
     </>
   )
