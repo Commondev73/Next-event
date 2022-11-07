@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-- [Next-event](https://github.com/Commondev73/Express-event) (Express-MongoDB)
+- [Express-event](https://github.com/Commondev73/Express-event) (Express-MongoDB)
 
 ## Getting Started
 
