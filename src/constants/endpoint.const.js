@@ -21,5 +21,11 @@ export const EndpointConst = {
   USER_EVENT: {
     GET_LIST: `${baseUrl}/api/user-event/list`,
     CREATE: `${baseUrl}/api/user-event/create`,
+    UPDATE: `${baseUrl}/api/user-event/update`,
+  },
+  ADMIN: {
+    SIGN_IN: `${baseUrl}/api/auth/sign-in`,
+    REFRESH_TOKEN: `${baseUrl}/api/auth/refresh-token`,
+    SIGN_UP_AUTO: `${baseUrl}/api/auth/sign-up-auto`,
   }
 }
