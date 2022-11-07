@@ -309,7 +309,7 @@ const RegisterEvent = () => {
           <div className="p-3">
             <Panel className="p-2" header={<h4>รายชื่อผู้ลงทะเบียนทั้งหมด</h4>} bodyFill>
               <InputGroup>
-                <Input value={search} onChange={(value) => setSearch(value)} />
+                <Input value={search} placeholder="ค้นหา ชื่อ /นามสกุล /เบอร์"  onChange={(value) => setSearch(value)} />
                 <InputGroup.Button onClick={onSearch}>
                   <Search />
                 </InputGroup.Button>
